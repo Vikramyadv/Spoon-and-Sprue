@@ -1,0 +1,91 @@
+/* About Us Page container */
+.about-us-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title for About Us */
+.about-us-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #2e7d32;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Content for About Us section */
+.about-us-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    text-align: justify;
+}
+
+/* Highlight section */
+.about-us-highlight {
+    color: #388e3c;
+    font-weight: bold;
+}
+
+/* Button Style */
+.about-us-btn {
+    display: block;
+    text-align: center;
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    background-color: #43a047;
+    color: white;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.about-us-btn:hover {
+    background-color: #388e3c;
+}
+
+/* Contact Form Section */
+.contact-form {
+    margin-top: 3rem;
+    background-color: #f1f1f1;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.contact-form button {
+    background-color: #43a047;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #388e3c;
+}
