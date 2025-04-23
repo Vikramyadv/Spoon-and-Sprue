@@ -69,6 +69,32 @@
     margin: 0.25rem 0;
 }
 
+.pouring-status {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.highlight {
+  color: green;
+  font-weight: bold;
+  font-size: 1.2rem;
+  background-color: #e6fbe6;
+  border-left: 5px solid green;
+  padding: 10px;
+}
+
+.not-started {
+  color: #8a8a8a;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background-color: #f7f7f7;
+  border-left: 5px solid gray;
+  padding: 10px;
+}
+
+
 @media (max-width: 600px) {
     .dashboard-title {
         font-size: 1.5rem;
