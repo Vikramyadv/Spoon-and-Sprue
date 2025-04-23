@@ -1,64 +1,75 @@
 import React, { useState, useEffect } from "react";
 import "./Styles/RealTimeMonitoring.css";
+import ApiData from "../components/ApiData";
 
 function RealTimeMonitoring() {
-  const [coordinates, setCoordinates] = useState({ x: 15.5, y: 22.3, z: 3.1 });
+  const [coordinates, setCoordinates] = useState({ x: 15, y: 25, z: 5 });
   const [lidarData, setLidarData] = useState(12.4);
   const [irData, setIrData] = useState(5.8);
   const [temperature, setTemperature] = useState(75);
+  const [pouringStarted, setPouringStarted] = useState(false);
 
-  const pouringCoordinates = { x: 20.0, y: 25.0, z: 5.0 };
+  const pouringCoordinates = { x: 20, y: 25, z: 5 };
 
-  const apiEndpoint =
-    "https://hyixaftszh.execute-api.us-east-1.amazonaws.com/default/displayData";
-
-  const [isAligned, setIsAligned] = useState(false);
-  const [apiXaxisData, setApiXaxisData] = useState(null);
-  const [apiTemperatureData, setApiTemperatureData] = useState(null);
-
-  // Function to fetch data from the API and update coordinates and temperature
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      try {
-        const response = await fetch(apiEndpoint);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        if (jsonData && Array.isArray(jsonData)) {
-          // Assuming the API provides data in a structured manner
-          let latestData = jsonData[jsonData.length - 1]; // Use the most recent data
-          setApiXaxisData(latestData.axisX);
-          setApiTemperatureData(latestData.temperature);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }, 3000); // Update every 3 seconds
+    const intervalId = setInterval(() => {
+      const newAxisX = Math.floor(Math.random() * 11) + 10; // Random integer between 10 and 20
+      const newTemperature = Math.floor(Math.random() * 41) + 60; // Random integer between 60 and 100
+      const newLidarData = Math.random() * 5 + 10;
+      const newIrData = Math.random() * 5 + 5;
 
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, []);
+      if (!pouringStarted) {
+        setCoordinates({
+          x: newAxisX,
+          y: pouringCoordinates.y,
+          z: pouringCoordinates.z,
+        });
+      }
+
+      setTemperature(newTemperature);
+      setLidarData(newLidarData);
+      setIrData(newIrData);
+
+      if (
+        newAxisX === pouringCoordinates.x &&
+        pouringCoordinates.y === coordinates.y &&
+        pouringCoordinates.z === coordinates.z
+      ) {
+        setPouringStarted(true);
+      }
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [coordinates.y, coordinates.z, pouringCoordinates]);
 
   return (
     <div className="ladle-sprue-dashboard">
-      <h1 className="dashboard-title">
-        Ladle and Sprue Alignment System Dashboard
-      </h1>
+      <div className="dashboard-container">
+        <header className="dashboard-header">
+          <img src="/PourSyncLogo.png" alt="PourSync Logo" className="logo" />
+        </header>
+      </div>
+
+      <h1 className="dashboard-title">PourSync System Dashboard</h1>
+
       <div className="sensor-data">
         <div className="coordinates">
           <h3>Real-time Coordinates</h3>
           <p>X: {coordinates.x}</p>
-          <p>Y: {coordinates.y.toFixed(2)}</p>
-          <p>Z: {coordinates.z.toFixed(2)}</p>
+          <p>Y: {coordinates.y}</p>
+          <p>Z: {coordinates.z}</p>
         </div>
+
         <div className="lidar">
           <h3>Distance</h3>
-          <p>Distance: {lidarData !== null ? lidarData.toFixed(2) : "N/A"}</p>
+          <p>{lidarData !== null ? lidarData.toFixed(2) : "N/A"}</p>
         </div>
+
         <div className="ir">
-          <h3>Lidar Value</h3>
-          <p>Value: {irData !== null ? irData.toFixed(2) : "N/A"}</p>
+          <h3>IR Sensor</h3>
+          <p>{irData !== null ? irData.toFixed(2) : "N/A"}</p>
         </div>
+
         <div className="temperature">
           <h3>Temperature</h3>
           <p>{temperature} °C</p>
@@ -66,27 +77,23 @@ function RealTimeMonitoring() {
       </div>
 
       <div className="pouring-coordinates">
-        <h3>Fixed Pouring Coordinates</h3>
+        <h3>Pouring Coordinates</h3>
         <p>X: {pouringCoordinates.x}</p>
         <p>Y: {pouringCoordinates.y}</p>
         <p>Z: {pouringCoordinates.z}</p>
       </div>
 
-      <div className="api-data">
-        <h3>API Data</h3>
-        <div className="data-item">
-          <p>
-            <strong>X (From API):</strong>{" "}
-            {apiXaxisData ? apiXaxisData : "Loading..."}
-          </p>
+      {pouringStarted ? (
+        <div className="pouring-status">
+          <p className="highlight">Pouring has started</p>
         </div>
-        <div className="data-item">
-          <p>
-            <strong>Temperature (From API):</strong>{" "}
-            {apiTemperatureData ? apiTemperatureData : "Loading..."}
-          </p>
+      ) : (
+        <div className="pouring-status">
+          <p className="not-started">Pouring has not started</p>
         </div>
-      </div>
+      )}
+
+      <ApiData />
     </div>
   );
 }
